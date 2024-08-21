@@ -9,8 +9,13 @@ public class CategoryPost
   public static Delegate Handler => Action;
   public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
   {
-    var category = new Category {
-      Name = categoryRequest.Name
+    var category = new Category
+    {
+      Name = categoryRequest.Name,
+      CreatedAt = DateTime.UtcNow,
+      CreatedBy = "categoryRequest.CreatedBy",
+      UpdatedAt = DateTime.UtcNow,
+      UpdatedBy = "categoryRequest.UpdatedBy",
     };
 
     context.Categories.Add(category);
