@@ -28,6 +28,8 @@ bld/
 obj
 obj/*
 
+appsettings.Development.json
+
 # NuGet Packages
 *.nupkg
 # The packages folder can be ignored if NuGet restore is used.
