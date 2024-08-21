@@ -25,6 +25,10 @@ app.MapControllers();
 #region Routes
 
 app.MapMethods(CategoryPost.Template, CategoryPost.Methods, CategoryPost.Handler);
+app.MapMethods(CategoryGetAll.Template, CategoryGetAll.Methods, CategoryGetAll.Handler);
+app.MapMethods(CategoryGetById.Template, CategoryGetById.Methods, CategoryGetById.Handler);
+app.MapMethods(CategoryPut.Template, CategoryPut.Methods, CategoryPut.Handler);
+app.MapMethods(CategoryDelete.Template, CategoryDelete.Methods, CategoryDelete.Handler);
 
 #endregion Routes
 
