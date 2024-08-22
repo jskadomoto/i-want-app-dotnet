@@ -9,11 +9,19 @@ public class CategoryPost
   public static Delegate Handler => Action;
   public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
   {
-    var testCreatedBy = "teste";
+    string testCreatedBy = "teste";
     var category = new Category(categoryRequest.Name, testCreatedBy, testCreatedBy);
 
     if (!category.IsValid)
-      return Results.BadRequest(category.Notifications);
+    {
+      var err = category.Notifications
+      .GroupBy(group => group.Key)
+      .ToDictionary(g => g.Key, g => g
+        .Select(err => err.Message)
+        .ToArray()
+      );
+      return Results.ValidationProblem(err);
+    }
 
     context.Categories.Add(category);
     context.SaveChanges();
