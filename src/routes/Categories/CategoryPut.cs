@@ -15,8 +15,11 @@ public class CategoryPut
     {
       return Results.NotFound("Categoria não encontrada.");
     }
-    category.Name = categoryRequest.Name;
-    category.IsActive = categoryRequest.IsActive;
+
+    category.EditInfo(categoryRequest.Name, categoryRequest.IsActive);
+
+    if (!category.IsValid)
+      return Results.ValidationProblem(category.Notifications.ConvertToProblemDetails());
 
     context.SaveChanges();
     return Results.Ok(category);
