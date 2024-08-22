@@ -5,7 +5,7 @@ namespace IWantApp.Domain.Products;
 
 public class CategoryPut
 {
-  public static string Template => "/categories/{id}";
+  public static string Template => "/categories/{id:guid}";
   public static string[] Methods => new string[] { HttpMethod.Put.ToString() };
   public static Delegate Handler => Action;
   public static IResult Action([FromRoute] Guid id, CategoryRequest categoryRequest, ApplicationDbContext context)
