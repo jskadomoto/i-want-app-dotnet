@@ -13,13 +13,8 @@ public class CategoryPost
     var category = new Category(categoryRequest.Name, testCreatedBy, testCreatedBy);
 
     if (!category.IsValid)
-    {
-      var err = category.Notifications
-        .GroupBy(group => group.Key)
-        .ToDictionary(g => g.Key, g => g.Select(err => err.Message).ToArray());
+      return Results.ValidationProblem(category.Notifications.ConvertToProblemDetails());
 
-      return Results.ValidationProblem(err);
-    }
 
     context.Categories.Add(category);
     context.SaveChanges();
