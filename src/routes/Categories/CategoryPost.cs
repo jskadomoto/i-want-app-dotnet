@@ -15,11 +15,9 @@ public class CategoryPost
     if (!category.IsValid)
     {
       var err = category.Notifications
-      .GroupBy(group => group.Key)
-      .ToDictionary(g => g.Key, g => g
-        .Select(err => err.Message)
-        .ToArray()
-      );
+        .GroupBy(group => group.Key)
+        .ToDictionary(g => g.Key, g => g.Select(err => err.Message).ToArray());
+
       return Results.ValidationProblem(err);
     }
 
