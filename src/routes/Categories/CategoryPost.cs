@@ -9,14 +9,8 @@ public class CategoryPost
   public static Delegate Handler => Action;
   public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
   {
-    var category = new Category(categoryRequest.Name)
-    {
-      Name = categoryRequest.Name,
-      CreatedAt = DateTime.UtcNow,
-      CreatedBy = "categoryRequest.CreatedBy",
-      UpdatedAt = DateTime.UtcNow,
-      UpdatedBy = "categoryRequest.UpdatedBy",
-    };
+    var testCreatedBy = "teste";
+    var category = new Category(categoryRequest.Name, testCreatedBy, testCreatedBy);
 
     if (!category.IsValid)
       return Results.BadRequest(category.Notifications);
