@@ -9,7 +9,7 @@ public class CategoryPost
   public static Delegate Handler => Action;
   public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
   {
-    var category = new Category
+    var category = new Category(categoryRequest.Name)
     {
       Name = categoryRequest.Name,
       CreatedAt = DateTime.UtcNow,
@@ -17,6 +17,9 @@ public class CategoryPost
       UpdatedAt = DateTime.UtcNow,
       UpdatedBy = "categoryRequest.UpdatedBy",
     };
+
+    if (!category.IsValid)
+      return Results.BadRequest(category.Notifications);
 
     context.Categories.Add(category);
     context.SaveChanges();
