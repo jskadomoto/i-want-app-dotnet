@@ -32,6 +32,7 @@ app.MapMethods(CategoryGetById.Template, CategoryGetById.Methods, CategoryGetByI
 app.MapMethods(CategoryPut.Template, CategoryPut.Methods, CategoryPut.Handler);
 app.MapMethods(CategoryDelete.Template, CategoryDelete.Methods, CategoryDelete.Handler);
 app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handler);
+app.MapMethods(EmployeeGetAll.Template, EmployeeGetAll.Methods, EmployeeGetAll.Handler);
 
 #endregion Routes
 
