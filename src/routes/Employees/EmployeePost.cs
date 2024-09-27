@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using IWantApp.Domain;
 using Microsoft.AspNetCore.Identity;
 
 public class EmployeePost
@@ -12,7 +13,7 @@ public class EmployeePost
     var result = userManager.CreateAsync(user, employeeRequest.Password).Result;
 
     if (!result.Succeeded)
-      return Results.BadRequest(result.Errors.First());
+      return Results.ValidationProblem(result.Errors.ConvertToProblemDetails());
 
     var userClaims = new List<Claim>
     {
@@ -25,7 +26,7 @@ public class EmployeePost
       var claimResult = userManager.AddClaimAsync(user, claim).Result;
 
       if (!claimResult.Succeeded)
-        return Results.BadRequest(claimResult.Errors.First());
+        return Results.ValidationProblem(claimResult.Errors.ConvertToProblemDetails());
     }
 
 
