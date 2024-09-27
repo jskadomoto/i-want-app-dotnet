@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 
 public class EmployeePost
@@ -11,6 +12,20 @@ public class EmployeePost
     var result = userManager.CreateAsync(user, employeeRequest.Password).Result;
 
     if (!result.Succeeded)
+    {
+      return Results.BadRequest(result.Errors.First());
+    }
+
+    var claimResult = userManager.AddClaimAsync(user, new Claim("EmployeeCode", employeeRequest.EmployeeCode)).Result;
+
+    if (!claimResult.Succeeded)
+    {
+      return Results.BadRequest(result.Errors.First());
+    }
+
+    claimResult = userManager.AddClaimAsync(user, new Claim("EmployeeName", employeeRequest.Name)).Result;
+
+    if (!claimResult.Succeeded)
     {
       return Results.BadRequest(result.Errors.First());
     }
