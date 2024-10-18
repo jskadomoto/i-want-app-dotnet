@@ -10,8 +10,9 @@ public class EmployeePost
   public static Delegate Handler => Action;
 
   [Authorize(Policy = "EmployeePolicy")]
-  public static IResult Action(EmployeeRequest employeeRequest, UserManager<IdentityUser> userManager)
+  public static IResult Action(EmployeeRequest employeeRequest, HttpContext http, UserManager<IdentityUser> userManager)
   {
+    var userId = http.GetUserId();
     var user = new IdentityUser { UserName = employeeRequest.Email, Email = employeeRequest.Email };
     var result = userManager.CreateAsync(user, employeeRequest.Password).Result;
 
@@ -22,6 +23,7 @@ public class EmployeePost
     {
       new Claim("EmployeeCode", employeeRequest.EmployeeCode),
       new Claim("Name", employeeRequest.Name),
+      new Claim("CreatedBy", userId),
     };
 
     foreach (var claim in userClaims)

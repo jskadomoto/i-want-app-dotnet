@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using IWantApp.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,7 @@ public class CategoryPut
   [Authorize(Policy = "EmployeePolicy")]
   public static IResult Action([FromRoute] Guid id, CategoryRequest categoryRequest, HttpContext http, ApplicationDbContext context)
   {
-    var userId = http.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+    var userId = http.GetUserId();
     var category = context.Categories.Where(c => c.Id == id).FirstOrDefault();
     if (category == null)
     {

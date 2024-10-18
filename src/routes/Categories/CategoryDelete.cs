@@ -8,8 +8,9 @@ public class CategoryDelete
   public static string Template => "/categories/{id:guid}";
   public static string[] Methods => new string[] { HttpMethod.Delete.ToString() };
   public static Delegate Handler => Action;
-  public static IResult Action([FromRoute] Guid id, ApplicationDbContext context)
+  public static IResult Action([FromRoute] Guid id, HttpContext http, ApplicationDbContext context)
   {
+    var userId = http.GetUserId();
     var category = context.Categories.Where(c => c.Id == id).FirstOrDefault();
     if (category == null)
     {
@@ -17,6 +18,6 @@ public class CategoryDelete
     }
     context.Categories.Remove(category);
     context.SaveChanges();
-    return Results.Ok($"Categoria Id: {category.Id}, Nome: {category.Name} deletada com sucesso.");
+    return Results.Ok($"Categoria Id: {category.Id}, Nome: {category.Name} deletada com sucesso pelo usuário.");
   }
 }

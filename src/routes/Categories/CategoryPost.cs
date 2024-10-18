@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using IWantApp.Database;
 using Microsoft.AspNetCore.Authorization;
 
@@ -13,7 +12,7 @@ public class CategoryPost
   [Authorize(Policy = "EmployeePolicy")]
   public static IResult Action(CategoryRequest categoryRequest, HttpContext http, ApplicationDbContext context)
   {
-    var userId = http.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+    var userId = http.GetUserId();
     var category = new Category(categoryRequest.Name, userId, userId);
 
     if (!category.IsValid)
