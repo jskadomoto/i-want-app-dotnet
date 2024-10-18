@@ -30,10 +30,12 @@ public class Category : Entity
     AddNotifications(contract);
   }
 
-  public void EditInfo(string name, bool isActive)
+  public void EditInfo(string name, bool isActive, string updatedBy)
   {
     Name = name;
     IsActive = isActive;
+    UpdatedBy = updatedBy;
+    UpdatedAt = DateTime.UtcNow;
 
     Validate();
   }

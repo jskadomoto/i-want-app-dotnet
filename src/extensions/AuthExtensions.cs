@@ -1,5 +1,6 @@
 // Extensions/AuthenticationExtensions.cs
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -22,10 +23,26 @@ public static class AuthenticationExtensions
         ValidateIssuerSigningKey = true,
         ValidIssuer = configuration["JwtBearerTokenSettings:Issuer"],
         ValidAudience = configuration["JwtBearerTokenSettings:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtBearerTokenSettings:SecretKey"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtBearerTokenSettings:SecretKey"])),
+        ClockSkew = TimeSpan.Zero
       };
     });
 
     return services;
   }
+  public static IServiceCollection AddCustomAuthorization(this IServiceCollection services)
+  {
+    services.AddAuthorization(options =>
+    {
+      options.FallbackPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+              .RequireAuthenticatedUser()
+              .Build();
+
+      options.AddPolicy("EmployeePolicy", p => p.RequireAuthenticatedUser().RequireClaim("EmployeeCode"));
+      options.AddPolicy("EmployeeSuperAdminPolicy", p => p.RequireAuthenticatedUser().RequireClaim("EmployeeCode", "001"));
+    });
+
+    return services;
+  }
+
 }

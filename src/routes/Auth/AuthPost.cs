@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using IWantApp.Database;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
@@ -12,6 +12,8 @@ public class AuthPost
   public static string Template => "/auth";
   public static string[] Methods => new string[] { HttpMethod.Post.ToString() };
   public static Delegate Handler => Action;
+
+  [AllowAnonymous]
   public static IResult Action(AuthRequest authRequest, IConfiguration configuration, UserManager<IdentityUser> userManager)
   {
     var user = userManager.FindByEmailAsync(authRequest.Email).Result;
@@ -24,19 +26,29 @@ public class AuthPost
     {
       Results.BadRequest();
     }
+
+    var claims = userManager.GetClaimsAsync(user).Result;
+
+    var subject = new ClaimsIdentity(new Claim[] {
+        new Claim(ClaimTypes.Email, authRequest.Email),
+        new Claim(ClaimTypes.NameIdentifier, user.Id),
+      });
+
+    subject.AddClaims(claims);
+
     var key = Encoding.ASCII.GetBytes(configuration["JwtBearerTokenSettings:SecretKey"]);
     var tokenDescriptor = new SecurityTokenDescriptor
     {
-      Subject = new ClaimsIdentity(new Claim[] {
-        new Claim(ClaimTypes.Email, authRequest.Email),
-      }),
+      Subject = subject,
       SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
       Audience = configuration["JwtBearerTokenSettings:Audience"],
-      Issuer = configuration["JwtBearerTokenSettings:Issuer"]
+      Issuer = configuration["JwtBearerTokenSettings:Issuer"],
+      Expires = DateTime.UtcNow.AddSeconds(3600) /* 1h in seconds */
     };
 
     var tokenHandler = new JwtSecurityTokenHandler();
     var token = tokenHandler.CreateToken(tokenDescriptor);
+
     return Results.Ok(new
     {
       token = tokenHandler.WriteToken(token)

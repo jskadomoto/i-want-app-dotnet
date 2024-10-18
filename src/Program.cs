@@ -11,7 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<QueryAllUsersWithClaimName>();
 builder.Services.AddJwtAuthentication(builder.Configuration); /* Authentication */
-builder.Services.AddAuthorization();
+builder.Services.AddCustomAuthorization(); /* Requires authenticated user by default */
 
 var app = builder.Build();
 app.UseAuthentication();
