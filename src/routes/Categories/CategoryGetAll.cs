@@ -14,7 +14,7 @@ public class CategoryGetAll
       return Results.NotFound("Nenhuma categoria encontrada");
     }
 
-    var response = categories.Select(c => new CategoryResponse { Id = c.Id, Name = c.Name, IsActive = c.IsActive });
+    var response = categories.Select(c => new CategoryResponse(c.Id, c.Name, c.IsActive));
     return Results.Ok(response);
   }
 }
