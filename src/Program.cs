@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Diagnostics;
-
 var builder = WebApplication.CreateBuilder(args);
 
 #region Builders
@@ -12,6 +10,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkSto
 builder.Services.AddScoped<QueryAllUsersWithClaimName>();
 builder.Services.AddJwtAuthentication(builder.Configuration); /* Authentication */
 builder.Services.AddCustomAuthorization(); /* Requires authenticated user by default */
+builder.Host.AddSerilogLogging(builder.Configuration);
 
 #endregion Builders
 

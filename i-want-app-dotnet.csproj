@@ -20,6 +20,9 @@
     <Using Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <Using Include="System.IdentityModel.Tokens.Jwt" />
     <Using Include="Microsoft.AspNetCore.Mvc" />
+    <Using Include="Microsoft.AspNetCore.Diagnostics" />
+    <Using Include="Serilog" />
+    <Using Include="Serilog.Sinks.MSSqlServer" />
 
     <Using Include="System.Security.Claims" />
     <Using Include="System.Text" />
@@ -40,6 +43,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="7.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
