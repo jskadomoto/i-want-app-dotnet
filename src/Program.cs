@@ -1,4 +1,8 @@
+using Microsoft.AspNetCore.Diagnostics;
+
 var builder = WebApplication.CreateBuilder(args);
+
+#region Builders
 
 builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration["ConnectionString:IWantDb"]);
 builder.Services.AddControllers();
@@ -8,6 +12,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkSto
 builder.Services.AddScoped<QueryAllUsersWithClaimName>();
 builder.Services.AddJwtAuthentication(builder.Configuration); /* Authentication */
 builder.Services.AddCustomAuthorization(); /* Requires authenticated user by default */
+
+#endregion Builders
 
 var app = builder.Build();
 app.UseAuthentication();
@@ -33,7 +39,19 @@ app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handler
 app.MapMethods(EmployeeGetAll.Template, EmployeeGetAll.Methods, EmployeeGetAll.Handler);
 app.MapMethods(AuthPost.Template, AuthPost.Methods, AuthPost.Handler);
 
+app.UseExceptionHandler("/error");
+app.Map("/error", (HttpContext http) =>
+{
+    var error = http.Features?.Get<IExceptionHandlerFeature>()?.Error;
+
+    return error is SqlException
+    ? Results.Problem(title: "Database is down", statusCode: 500)
+    : Results.Problem(title: "An error occurred", statusCode: 500);
+}
+);
+
 #endregion Routes
+
 
 
 app.Run();
