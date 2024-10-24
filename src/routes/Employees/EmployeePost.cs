@@ -1,8 +1,3 @@
-using System.Security.Claims;
-using IWantApp.Domain;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-
 public class EmployeePost
 {
   public static string Template => "/employees";

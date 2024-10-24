@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
-
 public class EmployeeGetAll
 {
   public static string Template => "/employees";

@@ -1,7 +1,3 @@
-using IWantApp.Database;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
 namespace IWantApp.Domain.Products;
 
 public class CategoryPut

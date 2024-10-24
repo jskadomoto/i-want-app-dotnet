@@ -1,8 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using IWantApp.Domain.Products;
-using Flunt.Notifications;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 namespace IWantApp.Database;
 
 public class ApplicationDbContext : IdentityDbContext<IdentityUser>

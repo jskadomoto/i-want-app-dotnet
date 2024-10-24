@@ -1,6 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-
 public class QueryAllUsersWithClaimName
 {
   private readonly IConfiguration configuration;

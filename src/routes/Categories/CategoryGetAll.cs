@@ -1,6 +1,3 @@
-using IWantApp.Database;
-using Microsoft.EntityFrameworkCore;
-
 namespace IWantApp.Domain.Products;
 
 public class CategoryGetAll

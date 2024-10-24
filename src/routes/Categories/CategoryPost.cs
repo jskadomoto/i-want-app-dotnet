@@ -1,6 +1,3 @@
-using IWantApp.Database;
-using Microsoft.AspNetCore.Authorization;
-
 namespace IWantApp.Domain.Products;
 
 public class CategoryPost

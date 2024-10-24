@@ -1,9 +1,3 @@
-// Extensions/AuthenticationExtensions.cs
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-
 public static class AuthenticationExtensions
 {
   public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
