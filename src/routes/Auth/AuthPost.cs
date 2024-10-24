@@ -7,20 +7,25 @@ public class AuthPost
   public static Delegate Handler => Action;
 
   [AllowAnonymous]
-  public static IResult Action(AuthRequest authRequest, IConfiguration configuration, UserManager<IdentityUser> userManager)
+  public static async Task<IResult> Action(AuthRequest authRequest, IConfiguration configuration, UserManager<IdentityUser> userManager, ILogger<AuthPost> logger)
   {
-    var user = userManager.FindByEmailAsync(authRequest.Email).Result;
-    if (!userManager.CheckPasswordAsync(user, authRequest.Password).Result)
-    {
-      Results.BadRequest();
-    }
+    logger.LogInformation("Getting auth token");
+
+    var user = await userManager.FindByEmailAsync(authRequest.Email);
 
     if (user == null)
     {
-      Results.BadRequest();
+      logger.LogError("User not found");
+      return Results.BadRequest();
     }
 
-    var claims = userManager.GetClaimsAsync(user).Result;
+    if (!await userManager.CheckPasswordAsync(user, authRequest.Password))
+    {
+      logger.LogError("Wrong password");
+      return Results.BadRequest();
+    }
+
+    var claims = await userManager.GetClaimsAsync(user);
 
     var subject = new ClaimsIdentity(new Claim[] {
         new Claim(ClaimTypes.Email, authRequest.Email),
@@ -41,6 +46,8 @@ public class AuthPost
 
     var tokenHandler = new JwtSecurityTokenHandler();
     var token = tokenHandler.CreateToken(tokenDescriptor);
+
+    logger.LogInformation("Auth Success");
 
     return Results.Ok(new
     {
