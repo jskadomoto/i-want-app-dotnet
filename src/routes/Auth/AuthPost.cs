@@ -34,7 +34,8 @@ public class AuthPost
 
     subject.AddClaims(claims);
 
-    var key = Encoding.ASCII.GetBytes(configuration["JwtBearerTokenSettings:SecretKey"]);
+    var secretKey = configuration["JwtBearerTokenSettings:SecretKey"] ?? string.Empty;
+    var key = Encoding.ASCII.GetBytes(secretKey);
     var tokenDescriptor = new SecurityTokenDescriptor
     {
       Subject = subject,
