@@ -7,7 +7,7 @@ public class EmployeeGetAll
   public static Delegate Handler => Action;
 
   [Authorize(Policy = "EmployeeSuperAdminPolicy")]
-  public static IResult Action(int? page, int? rows, QueryAllUsersWithClaimName query)
+  public static async Task<IResult> Action(int? page, int? rows, QueryAllUsersWithClaimName query)
   {
     page ??= 1;
 
@@ -17,7 +17,7 @@ public class EmployeeGetAll
 
       return Results.Ok(new { Warning = warning, Employees = query.Execute(page.Value, rows.Value) });
     }
-    var employees = query.Execute(page.Value, rows.Value);
+    var employees = await query.Execute(page.Value, rows.Value);
 
     return Results.Ok(employees);
   }
