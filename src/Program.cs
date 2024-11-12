@@ -45,11 +45,14 @@ app.Map("/error", (HttpContext http) =>
 {
     var error = http.Features?.Get<IExceptionHandlerFeature>()?.Error;
 
-    return error is SqlException
-    ? Results.Problem(title: "Database is down", statusCode: 500)
-    : Results.Problem(title: "An error occurred", statusCode: 500);
-}
-);
+    return error switch
+    {
+        SqlException => Results.Problem(title: "Database is down", statusCode: 500),
+        BadHttpRequestException => Results.Problem(title: "Error converting data to another type. Check all information sent", statusCode: 400),
+        _ => Results.Problem(title: "An error occurred", statusCode: 500)
+    };
+});
+
 
 #endregion Routes
 
