@@ -27,6 +27,8 @@ bld/
 [Oo]bj
 obj
 obj/*
+out
+out/*
 
 appsettings.Development.json
 
