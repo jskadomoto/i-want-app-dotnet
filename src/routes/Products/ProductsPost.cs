@@ -12,11 +12,6 @@ public class ProductPost
     var userId = http.GetUserId();
     var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == productRequest.CategoryId);
 
-    if (category == null)
-    {
-      return Results.NotFound($"Categoria de ID {productRequest.CategoryId} não encontrada");
-    }
-
     var product = new Product(productRequest.Name, category, productRequest.Description, productRequest.HasStock, userId);
 
 
