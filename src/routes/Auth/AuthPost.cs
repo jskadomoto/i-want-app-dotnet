@@ -7,7 +7,7 @@ public class AuthPost
   public static Delegate Handler => Action;
 
   [AllowAnonymous]
-  public static async Task<IResult> Action(AuthRequest authRequest, IConfiguration configuration, UserManager<IdentityUser> userManager, ILogger<AuthPost> logger)
+  public static async Task<IResult> Action(AuthRequest authRequest, IConfiguration configuration, UserManager<IdentityUser> userManager, ILogger<AuthPost> logger, IWebHostEnvironment environment)
   {
     logger.LogInformation("Getting auth token");
 
@@ -42,7 +42,9 @@ public class AuthPost
       SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
       Audience = configuration["JwtBearerTokenSettings:Audience"],
       Issuer = configuration["JwtBearerTokenSettings:Issuer"],
-      Expires = DateTime.UtcNow.AddSeconds(3600) /* 1h in seconds */
+      Expires = environment.IsDevelopment() || environment.IsStaging() 
+      ? DateTime.UtcNow.AddHours(5) 
+      : DateTime.UtcNow.AddMinutes(2)
     };
 
     var tokenHandler = new JwtSecurityTokenHandler();
