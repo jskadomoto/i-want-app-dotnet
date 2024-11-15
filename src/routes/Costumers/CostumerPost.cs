@@ -5,7 +5,7 @@ public class CostumerPost
   public static Delegate Handler => Action;
 
   [AllowAnonymous]
-  public static async Task<IResult> Action(CostumerRequest costumerRequest, CostumerCreator costumerCreator)
+  public static async Task<IResult> Action(CostumerRequest costumerRequest, UserCreator userCreator)
   {
     var formattedCpf = CpfHelper.RemoveCpfFormat(costumerRequest.Cpf);
     var userClaims = new List<Claim>
@@ -16,7 +16,7 @@ public class CostumerPost
     };
 
     (IdentityResult identity, string userId) result = 
-      await costumerCreator.Create(costumerRequest.Email, costumerRequest.Password, userClaims);
+      await userCreator.Create(costumerRequest.Email, costumerRequest.Password, userClaims);
 
     if (!result.identity.Succeeded)
       return Results.ValidationProblem(result.identity.Errors.ConvertToProblemDetails());
