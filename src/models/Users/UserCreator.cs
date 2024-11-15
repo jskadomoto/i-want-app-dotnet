@@ -1,7 +1,7 @@
-public class CostumerCreator {
+public class UserCreator {
 
   private readonly UserManager<IdentityUser> _userManager;
-  public CostumerCreator(UserManager<IdentityUser> userManager) {
+  public UserCreator(UserManager<IdentityUser> userManager) {
     _userManager = userManager;
   }
 
