@@ -7,13 +7,11 @@ public class ProductGetShowCase
     public static Delegate Handler => Action;
 
     [AllowAnonymous]
-    public static async Task<IResult> Action(int? page, int? rows, string? orderBy, ApplicationDbContext context)
+    public static async Task<IResult> Action( ApplicationDbContext context, int page = 1, int rows = 10, string orderBy = "name")
     {
-        int pageNumber = page ?? 1;
-        int pageSize = rows ?? 10;
         string sortOrder = string.IsNullOrEmpty(orderBy) ? "name" : orderBy.ToLower();
 
-        var products = await GetProductsAsync(pageNumber, pageSize, sortOrder, context);
+        var products = await GetProductsAsync(page, page, sortOrder, context);
 
         var response = products.Select(p => new ProductResponse(
             p.Id, p.Name, p.Category.Name, p.Description, p.HasStock, p.Price, p.IsActive));
