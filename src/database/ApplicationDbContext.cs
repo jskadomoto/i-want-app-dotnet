@@ -9,10 +9,16 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
   {
     base.OnModelCreating(builder);
     builder.Ignore<Notification>();
+    /* Products */
     builder.Entity<Product>().Property(p => p.Name).IsRequired();
     builder.Entity<Product>().Property(p => p.Description).HasMaxLength(255);
     builder.Entity<Product>().Property(p => p.Price).HasColumnType("decimal(10,2)").IsRequired();
+    /* Category */
     builder.Entity<Category>().Property(c => c.Name).IsRequired();
+    /* Order */
+    builder.Entity<Order>().Property(o => o.CostumerId).IsRequired();
+    builder.Entity<Order>().Property(o => o.DeliveryAddress).IsRequired();
+    builder.Entity<Order>().HasMany(o => o.Products).WithMany(p => p.Orders).UsingEntity(x => x.ToTable("OrderProducts"));
   }
   protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
   {
