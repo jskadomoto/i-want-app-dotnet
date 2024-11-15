@@ -31,6 +31,7 @@ app.MapControllers();
 
 app.MapMethods(ProductPost.Template, ProductPost.Methods, ProductPost.Handler);
 app.MapMethods(ProductGetAll.Template, ProductGetAll.Methods, ProductGetAll.Handler);
+app.MapMethods(ProductGetShowCase.Template, ProductGetShowCase.Methods, ProductGetShowCase.Handler);
 app.MapMethods(CategoryPost.Template, CategoryPost.Methods, CategoryPost.Handler);
 app.MapMethods(CategoryGetAll.Template, CategoryGetAll.Methods, CategoryGetAll.Handler);
 app.MapMethods(CategoryGetById.Template, CategoryGetById.Methods, CategoryGetById.Handler);
