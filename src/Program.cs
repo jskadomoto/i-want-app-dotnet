@@ -8,7 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<QueryAllUsersWithClaimName>();
-builder.Services.AddScoped<CostumerCreator>();
+builder.Services.AddScoped<UserCreator>();
 builder.Services.AddJwtAuthentication(builder.Configuration); /* Authentication */
 builder.Services.AddCustomAuthorization(); /* Requires authenticated user by default */
 builder.Host.AddSerilogLogging(builder.Configuration);
@@ -43,6 +43,7 @@ app.MapMethods(CategoryDelete.Template, CategoryDelete.Methods, CategoryDelete.H
 
 /* Costumer */
 app.MapMethods(CostumerPost.Template, CostumerPost.Methods, CostumerPost.Handler);
+app.MapMethods(CostumerGet.Template, CostumerGet.Methods, CostumerGet.Handler);
 
 /* Employee */
 app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handler);
