@@ -26,10 +26,10 @@ public class Order : Entity {
 
   private void Validate() {
     var contract = new Contract<Order>()
-      .IsNotNull(CostumerId, "Costumer")
-      .IsTrue(Products != null && Products.Any(), "Products")
-      .IsNullOrEmpty(DeliveryAddress, "DeliveryAddress");
+        .IsNotNull(CostumerId, "Costumer")
+        .IsTrue(Products != null && Products.Any(), "Products")
+        .IsNotNullOrEmpty(DeliveryAddress, "DeliveryAddress");
 
     AddNotifications(contract);
-  }
+}
 }
