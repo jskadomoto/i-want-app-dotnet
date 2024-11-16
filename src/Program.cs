@@ -8,6 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<QueryAllUsersWithClaimName>();
+builder.Services.AddScoped<QueryAllProductsSold>();
 builder.Services.AddScoped<UserCreator>();
 builder.Services.AddJwtAuthentication(builder.Configuration); /* Authentication */
 builder.Services.AddCustomAuthorization(); /* Requires authenticated user by default */
@@ -32,6 +33,7 @@ app.MapControllers();
 /* Products */
 app.MapMethods(ProductPost.Template, ProductPost.Methods, ProductPost.Handler);
 app.MapMethods(ProductGetAll.Template, ProductGetAll.Methods, ProductGetAll.Handler);
+app.MapMethods(ProductSoldGet.Template, ProductSoldGet.Methods, ProductSoldGet.Handler);
 app.MapMethods(ProductGetShowCase.Template, ProductGetShowCase.Methods, ProductGetShowCase.Handler);
 
 /* Category */
