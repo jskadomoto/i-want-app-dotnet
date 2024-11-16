@@ -34,6 +34,7 @@ public static class AuthenticationExtensions
 
       options.AddPolicy("EmployeePolicy", p => p.RequireAuthenticatedUser().RequireClaim("EmployeeCode"));
       options.AddPolicy("EmployeeSuperAdminPolicy", p => p.RequireAuthenticatedUser().RequireClaim("EmployeeCode", "001"));
+      options.AddPolicy("CpfPolicy", p => p.RequireAuthenticatedUser().RequireClaim("Cpf"));
     });
 
     return services;
