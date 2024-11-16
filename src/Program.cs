@@ -49,6 +49,9 @@ app.MapMethods(CostumerGet.Template, CostumerGet.Methods, CostumerGet.Handler);
 app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handler);
 app.MapMethods(EmployeeGetAll.Template, EmployeeGetAll.Methods, EmployeeGetAll.Handler);
 
+/* Order */
+app.MapMethods(OrderPost.Template, OrderPost.Methods, OrderPost.Handler);
+
 /* Auth */
 app.MapMethods(AuthPost.Template, AuthPost.Methods, AuthPost.Handler);
 
