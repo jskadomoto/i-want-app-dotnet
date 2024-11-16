@@ -51,6 +51,7 @@ app.MapMethods(EmployeeGetAll.Template, EmployeeGetAll.Methods, EmployeeGetAll.H
 
 /* Order */
 app.MapMethods(OrderPost.Template, OrderPost.Methods, OrderPost.Handler);
+app.MapMethods(OrdeGet.Template, OrdeGet.Methods, OrdeGet.Handler);
 
 /* Auth */
 app.MapMethods(AuthPost.Template, AuthPost.Methods, AuthPost.Handler);
